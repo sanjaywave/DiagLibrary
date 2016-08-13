@@ -1,0 +1,722 @@
+CSNRR DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+--<addarg><ArgDescr name="len" type="OSSIZE" func="decode"/></addarg>
+TBCDString ::= IA5String (FROM ("0123456789#*abc"))
+
+
+-- BCDString3 should be configured as <ctype>chararray</ctype>
+TBCDString3 ::= TBCDString (SIZE(3))
+
+-- MCC/MNC pair
+MCCMNCPair ::= SEQUENCE {
+mcc TBCDString3,
+mnc TBCDString3
+}
+
+
+--<ctype>chararray</ctype>
+--<addarg><ArgDescr name="len" type="OSSIZE" func="decode"/></addarg>
+GSMRR-IMSI ::= TBCDString (SIZE (14..15))
+
+--<ctype>chararray</ctype>
+--<addarg><ArgDescr name="len" type="OSSIZE" func="decode"/></addarg>
+GSMRR-IMEI ::= TBCDString (SIZE (15))
+
+
+--<ctype>chararray</ctype>
+--<addarg><ArgDescr name="len" type="OSSIZE" func="decode"/></addarg>
+GSMRR-IMEISV ::= TBCDString (SIZE (16))
+
+
+GSMRRMobileIdentity-TMGI ::= SEQUENCE {
+mbmsSessIdInd BOOLEAN,
+mccMncInd BOOLEAN,
+mbmsServiceID OCTET STRING (SIZE (3)),
+mcc-mnc MCCMNCPair,
+mbmsSessionID INTEGER(0..255)
+}
+
+GSMRRMobileIdentity ::= CHOICE {
+imsi GSMRR-IMSI,
+imei GSMRR-IMEI,
+imeisv GSMRR-IMEISV,
+tmsi OCTET STRING (SIZE (4)),
+tmgi GSMRRMobileIdentity-TMGI
+}
+
+
+GSMRRMobileIdentity_top ::= SEQUENCE {
+lengthmobID INTEGER (0..255),
+iddigit INTEGER(0..15),
+oddevenindic BOOLEAN,
+mobid GSMRRMobileIdentity
+}
+
+GSMRRPageMode ::= SEQUENCE {
+spare INTEGER(0..3) DEFAULT 0,
+pm INTEGER(0..3)
+}
+
+GSMRRChannelNeeded ::= SEQUENCE {
+channelsecond INTEGER(0..3),
+channelfirst INTEGER(0..3)
+}
+
+
+GSMRRProtoDiscr ::= ENUMERATED {
+   gcc(0), bcc(1), epsSessMgmt(2), callCtrl(3), gttp(4), mobMgmt(5), 
+   rrMgmt(6), epsMobMgmt(7), gprsMobMgmt(8), sms(9), sessMgmt(10), 
+   nonCallSS(11)
+} (0..15)
+
+GSMRRPagingReqType1 ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+msgType INTEGER (0..255),
+channelneedmob1and2 GSMRRChannelNeeded,
+pagemode GSMRRPageMode,
+mobileIdentity1 GSMRRMobileIdentity_top,
+mobileIdentity2 GSMRRMobileIdentity_top,
+p1restoctets OCTET STRING (SIZE (17))
+}
+
+GSMRRPagingReqType2 ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+pagingreq2msgType INTEGER (0..255),
+channelneedmob1and2 GSMRRChannelNeeded,
+pagemode GSMRRPageMode,
+mobileIdentity1 GSMRRMobileIdentity_top,
+mobileIdentity2 GSMRRMobileIdentity_top,
+mobileIdentity3 GSMRRMobileIdentity_top,
+p2restoctets OCTET STRING (SIZE (11))
+}
+
+GSMRRPagingReqType3 ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+pagingreq3msgType INTEGER (0..255),
+channelneedmob1and2 GSMRRChannelNeeded,
+pagemode GSMRRPageMode,
+mobileIdentity1 GSMRRMobileIdentity_top,
+mobileIdentity2 GSMRRMobileIdentity_top,
+mobileIdentity3 GSMRRMobileIdentity_top,
+mobileIdentity4 GSMRRMobileIdentity_top,
+p3restoctets OCTET STRING (SIZE (3))
+}
+
+GSMRRCipheringKeySeqNum ::= SEQUENCE {
+spare BOOLEAN DEFAULT 0,
+keysequence INTEGER(0..7)
+}
+
+/* 10.5.1.5 - Mobile Station Classmark 1 */
+
+GSMRRMobileStationClassmark1 ::= SEQUENCE {
+   spare BOOLEAN, 
+   revLevel INTEGER(0..3),  /* 0 = GSM phase 1, 
+                               1 = GSM phase 2, 
+                               2 = R99 or later */
+   esInd BOOLEAN, 
+   a5-1-alg BOOLEAN, 
+   rfPowerCap INTEGER(0..7)
+}
+
+/* 10.5.1.6 - Mobile Station Classmark 2 */
+
+GSMRRMobileStationClassmark2 ::= SEQUENCE {
+   /* octet 2 */
+   lengthmobilestationclassmark2 INTEGER (0..255),
+
+   /* octet 3 */
+   cm1 GSMRRMobileStationClassmark1 ,
+
+   /* octet 4 */
+   octet4 SEQUENCE {
+      spare BOOLEAN, 
+      psCapability BOOLEAN,  
+      ssScreeningInd INTEGER(0..3),
+      smCapability BOOLEAN,  
+      vbsNotifRecept BOOLEAN,  
+      vgcsNotifRecept BOOLEAN,  
+      fcFreqCap BOOLEAN
+   } ,
+
+   /* octet 5 */
+   octet5 SEQUENCE {
+      cm3 BOOLEAN,  
+      spare BOOLEAN, 
+      lcsvaCap BOOLEAN,  
+      ucs2Treatment BOOLEAN,  
+      soLSA BOOLEAN,  
+      cmsp BOOLEAN,  
+      a5-3-alg BOOLEAN,  
+      a5-2-alg BOOLEAN
+   } 
+}
+
+GSMRRPagingResp ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+pagingrespmsgType INTEGER (0..255),
+sparehalfoctet INTEGER(0..15) DEFAULT 0,
+cipheringkeyseqnum GSMRRCipheringKeySeqNum,
+mobilestationclassmark2 GSMRRMobileStationClassmark2,
+mobileIdentity GSMRRMobileIdentity_top
+}
+
+GSMRRMeasurementResults ::= SEQUENCE {
+	octet2 SEQUENCE {
+		baUsed BOOLEAN, 
+		       dtxUsed BOOLEAN,  
+		       rxlevFullServingCell INTEGER(0..63)
+	} ,
+
+	       octet3 SEQUENCE {
+		       baUsed3g BOOLEAN,
+		       measvalid BOOLEAN,
+		       rxlevSubServingCell INTEGER(0..63) 
+	       } ,
+
+	       octet4 SEQUENCE {
+		       spare BOOLEAN DEFAULT 0,
+		       rxqualFullServingCell INTEGER(0..7),
+		       rxqualSubServingCell INTEGER(0..7),
+		       noNCellMHighPart  BOOLEAN
+	       } ,
+
+	       octet5 SEQUENCE {
+		       noNCellMLowPart  INTEGER(0..3),
+		       rxlevNCell1 INTEGER(0..63)
+	       } ,
+
+	       octet6 SEQUENCE {
+		       bcchFreqNCell1 INTEGER(0..31),
+		       bsicNCell1HighPart INTEGER(0..7)
+	       } ,
+
+	       octet7 SEQUENCE {
+		       bsicNCellLowPart INTEGER(0..7),
+		       rxlevNCell2HighPart INTEGER(0..31)
+	       } ,
+
+	       octet8 SEQUENCE {
+		       rxlevNCell2LowPart BOOLEAN,
+		       bcchFreqNCell2 INTEGER(0..31),
+		       bsicNCell2HighPart INTEGER(0..3)
+	       } ,
+
+	       octet9 SEQUENCE {
+		       bsicNCell2LowPart INTEGER(0..15),
+		       rxlevNCell3HighPart INTEGER(0..15)
+	       } ,
+
+	       octet10 SEQUENCE {
+		       rxlevNCell3LowPart INTEGER(0..3),
+		       bcchFreqNCell3 INTEGER(0..31),
+		       bsicNCell3HighPart BOOLEAN
+	       } ,
+
+	       octet11 SEQUENCE {
+		       bsicNCell3HighPart INTEGER(0..31),
+		       rxlevNCell4HighPart INTEGER(0..7)
+	       } ,
+
+	       octet12 SEQUENCE {
+		       rxlevNCell4LowPart INTEGER(0..7),
+		       bcchFreqNCell4 INTEGER(0..31)
+	       } ,
+
+	       octet13 SEQUENCE {
+		       bsicNCell4 INTEGER(0..63),
+		       rxlevNCell5HighPart INTEGER(0..3)
+	       } ,
+
+	       octet14 SEQUENCE {
+		       rxlevNCell5LowPart INTEGER(0..15),
+		       bcchFreqNCell5HighPart INTEGER(0..15)
+	       } ,
+
+	       octet15 SEQUENCE { 
+		       bcchFreqNCell5LowPart BOOLEAN,
+		       bsicNCell5  INTEGER(0..63),
+		       rxlevNCell6HighPart BOOLEAN
+	       } ,
+
+	       octet16 SEQUENCE { 
+		       rxlevNCell6LowPart INTEGER(0..31),
+		       bcchFreqNCell6HighPart INTEGER(0..7)
+	       } ,
+
+	       octet17 SEQUENCE { 
+		       bcchFreqNCell6LowPart INTEGER(0..3),
+		       bsicNCell6  INTEGER(0..63)
+	       }
+}
+
+GSMRRMeasurementReport ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+measurementreportmsgType INTEGER (0..255),
+measurementresults GSMRRMeasurementResults 
+}
+
+GSMRRCipheringModeSetting ::= SEQUENCE {
+algorithmidentifier INTEGER (0..7),
+sc BOOLEAN 
+}
+
+GSMRRCipherResponse ::= SEQUENCE {
+spare INTEGER (0..7),
+cr BOOLEAN
+}
+/* 10.5.1.7 - Mobile Station Classmark 3 */
+/*
+< MS Measurement capability > ::=
+	< SMS_VALUE : bit (4) >
+	< SM_VALUE : bit (4) > ;
+*/
+GSMRRMSMeasurementCap ::= SEQUENCE {
+   smsValue INTEGER(0..15), 
+   smValue  INTEGER(0..15)
+}
+
+-- Name has to begin with some uppercase letter.
+GSMRRType8PSKStruct ::= SEQUENCE {
+   modulationCap BOOLEAN,
+   rfPowerCap1 INTEGER(0..3) OPTIONAL, 
+   rfPowerCap2 INTEGER(0..3) OPTIONAL
+}
+
+GSMRRGERANIuModeCap ::= SEQUENCE {
+   --<is3GLength bitFieldSize="4" units="bits"/>
+   length INTEGER (0..15), -- number of bits, may be padded
+   floIuCap BOOLEAN, 
+   --<inline/>
+   --<length fixed-size="0"/>
+   spareBits BIT STRING (SIZE (0..14))
+}
+
+/*
+< A5 bits > ::= 
+	< A5/7 : bit > < A5/6 : bit > < A5/5 : bit > < A5/4 : bit >  ;
+*/
+GSMRRA5Bits ::= SEQUENCE {
+   a5-7 BOOLEAN, 
+   a5-6 BOOLEAN, 
+   a5-5 BOOLEAN, 
+   a5-4 BOOLEAN
+}
+
+/*
+<R Support>::=
+	< R-GSM band Associated Radio Capability : bit(3) > ;
+*/
+GSMRRRSupport ::= INTEGER(0..7)
+
+/*
+< HSCSD Multi Slot Capability > ::=
+	< HSCSD Multi Slot Class : bit(5) >  ;
+*/
+GSMRRHSCSDMultiSlotCap ::= INTEGER(0..31)
+
+-- This type enumerates all of the valid bit patterns expressed in the CSN
+-- for the multibandSupported eleemnt in MobileStationClassmark3
+
+GSMRRMBSEnum ::= ENUMERATED { 
+   mbs0(0), mbs1(1), mbs2(2), mbs4(4), mbs5(5), mbs6(6)
+} (0..6)
+
+-- MultibandSupported is defined as a separate type to allow a custom NAS
+-- encode and decode function to be defined to support the following CSN:
+/*
+{	< Multiband supported : { 000 } >
+		< A5 bits > 
+|	< Multiband supported : { 101 | 110 } > 
+		< A5 bits >
+		< Associated Radio Capability 2 : bit(4) >
+		< Associated Radio Capability 1 : bit(4) >
+|	< Multiband supported : { 001 | 010 | 100 } > 
+		< A5 bits >
+		< spare bit >(4)
+		< Associated Radio Capability 1 : bit(4) > }
+*/
+GSMRRMultibandSupported ::= SEQUENCE {
+   supported GSMRRMBSEnum,
+   a5bits GSMRRA5Bits, 
+   assocRadioCap2 INTEGER(0..15),
+   assocRadioCap1 INTEGER(0..15)
+}
+
+/*
+{       < T-GSM 400 Bands Supported : { 01 | 10 | 11 } >
+	< T-GSM 400 Associated Radio Capability: bit(4) > }
+*/
+GSMRRGSM400Struct ::= SEQUENCE { 
+   bandsSupported ENUMERATED { band1(1), band2(2), band3(3) } (0..3),
+   assocRadioCap INTEGER (0..15)   
+}
+
+/*
+{ 	< DTM GPRS Multi Slot Class : bit(2) >
+	< Single Slot DTM : bit >
+	{0 | 1 < DTM EGPRS Multi Slot Class : bit(2) > } } 
+*/
+GSMRRDTMGPRSStruct ::= SEQUENCE {
+   dtmGPRSMultiSlotClass INTEGER(0..3),
+   singleSlotDTM BOOLEAN,
+   dtmEGPRSMultiSlotClass INTEGER(0..3) OPTIONAL
+} 
+
+--<aligned/>
+GSMRRMobileStationClassmark3 ::= SEQUENCE {
+   --<is3GLength/>
+   length INTEGER (0..32), 
+   spare BOOLEAN, 
+   multiband GSMRRMultibandSupported,
+   /*
+	{ 0 | 1 < R Support > }
+	{ 0 | 1 < HSCSD Multi Slot Capability > }
+	< UCS2 treatment: bit >
+	< Extended Measurement Capability : bit >
+	{ 0 | 1 < MS measurement capability > }
+	{ 0 | 1 < MS Positioning Method Capability > }
+	{ 0 | 1 < ECSD Multi Slot Capability > }
+	{ 0 | 1 < 8-PSK Struct > }
+   */
+   rSupport GSMRRRSupport OPTIONAL,
+   hscsdMultiSlotCap GSMRRHSCSDMultiSlotCap OPTIONAL,
+   ucs2Treatment BOOLEAN,
+   extMeasurementCap BOOLEAN,
+   msMeasurementCap GSMRRMSMeasurementCap OPTIONAL,
+   msPositioningMethodCap INTEGER(0..31) OPTIONAL,
+   ecsdMultiSlotCap INTEGER(0..31) OPTIONAL,
+   an-8-PSKStruct GSMRRType8PSKStruct OPTIONAL,
+   /*
+	{ 0 | 1 < GSM 400 Struct >
+   */
+   gsm400Struct GSMRRGSM400Struct OPTIONAL,
+   /*
+	{ 0 | 1 <GSM 850 Associated Radio Capability : bit(4) > }
+	{ 0 | 1 <GSM 1900 Associated Radio Capability : bit(4) > }
+	< UMTS FDD Radio Access Technology Capability : bit >
+	< UMTS 3.84 Mcps TDD Radio Access Technology Capability : bit >
+	< CDMA 2000 Radio Access Technology Capability : bit >
+   */
+   gsm850AssocRadioCap INTEGER(0..15) OPTIONAL,
+   gsm1900AssocRadioCap INTEGER(0..15) OPTIONAL,
+   umtsFDDRadioAccessTechCap BOOLEAN,
+   umts384McpsTDDRadioAccessTechCap BOOLEAN,
+   cdma2000RadioAccessTechCap BOOLEAN,
+   /*
+	{ 0 | 1	< DTM GPRS Struct > }
+   */
+   dtmGPRSStruct GSMRRDTMGPRSStruct OPTIONAL,
+
+   -- Release 4 starts here
+   /*
+	{ 0 | 1 < Single Band Support > }
+	{ 0 | 1 <GSM 750 Associated Radio Capability : bit(4)>}
+	< UMTS 1.28 Mcps TDD Radio Access Technology Capability : bit >
+	< GERAN Feature Package 1 : bit >
+   */
+   singleBandSupport INTEGER(0..15) OPTIONAL,
+   gsm750AssocRadioCap INTEGER(0..15) OPTIONAL,
+   umts1-28McpsTDDRadioAccessTechCap BOOLEAN, 
+   geranFeaturePackage1 BOOLEAN,
+   /*
+	{ 0 | 1 < Extended DTM GPRS Multi Slot Class : bit(2) >
+		< Extended DTM EGPRS Multi Slot Class : bit(2) > }
+   */
+   extDtmGPRSStruct SEQUENCE {
+      extDtmGPRSMultiSlotClass INTEGER(0..3),
+      extDtmEGPRSMultiSlotClass INTEGER(0..3)
+   } OPTIONAL,
+
+   -- Release 5 starts here
+   /*
+	{ 0 | 1 < High Multislot Capability : bit(2) > }
+	{ 0 | 1 < GERAN Iu Mode Capabilities > }
+	< GERAN Feature Package 2 : bit >
+	< GMSK Multislot Power Profile : bit (2) >
+	< 8-PSK Multislot Power Profile : bit (2) >
+   */
+   highMultislotCap INTEGER(0..3) OPTIONAL,
+   geranIuModeCap GSMRRGERANIuModeCap OPTIONAL,
+   geranFeaturePackage2 BOOLEAN,
+   gmskMultislotPowerProfile INTEGER(0..3),
+   multislotPowerProfile8PSK INTEGER(0..3),
+
+   -- Release 6 starts here
+   /*
+	{ 0 | 1 < GSM 400 Struct >
+   */
+   tgsm400Struct GSMRRGSM400Struct OPTIONAL,
+   /* 
+        0	The value '1' was allocated in an earlier version of the 
+                protocol and shall not be used 
+   */
+   zerobit BOOLEAN DEFAULT FALSE,
+   /*
+	< Downlink Advanced Receiver Performance : bit (2)>
+	< DTM Enhancements Capability : bit >
+   */
+   downlinkAdvancedRcvrPerf INTEGER(0..3),
+   dtmEnhancementsCap BOOLEAN,
+   /*
+	{ 0 | 1	< DTM GPRS High Multi Slot Class : bit(3) >
+		< Offset required : bit>
+		{ 0 | 1 < DTM EGPRS High Multi Slot Class : bit(3) > } }
+   */
+   dtmGPRSStruct2 SEQUENCE {
+      dtmGPRSHighMultiSlotClass INTEGER(0..7),
+      offsetRequired BOOLEAN,
+      dtmEGPRSHighMultiSlotClass INTEGER(0..7) OPTIONAL
+   } OPTIONAL,
+   /*
+	< Repeated ACCH Capability : bit >
+   */
+   repeatedACCHCap BOOLEAN,
+   /*
+        -- Release 7 starts here
+	{ 0 | 1 <GSM 710 Associated Radio Capability : bit(4)>}
+	{ 0 | 1 <T-GSM 810 Associated Radio Capability : bit(4)>}
+	< Ciphering Mode Setting Capability : bit >
+	< Additional Positioning Capabilities : bit >
+   */
+   gsm710AssocRadioCap INTEGER(0..15) OPTIONAL,
+   tgsm810AssocRadioCap INTEGER(0..15) OPTIONAL,
+   cipheringModeSettingCap BOOLEAN,
+   additionalPositioningCap BOOLEAN,
+   /*
+       	-- Release 8 starts here
+	< E-UTRA FDD support : bit >
+	< E-UTRA TDD support : bit >
+	< E-UTRA Measurement and Reporting support : bit >
+	< Priority-based reselection support : bit >
+   */
+   e-UTRA-FDD-support BOOLEAN,
+   e-UTRA-TDD-support BOOLEAN,
+   e-UTRA-MeasAndReportSupport BOOLEAN,
+   priorityBasedReselectionSupport BOOLEAN,
+   ...,
+   /*
+        -- Release 9 starts here
+	< UTRA CSG Cells Reporting : bit >
+	< VAMOS Level : bit(2) >
+   */
+   [[ 9:
+   uTRA-CSG-Cells-Reporting BOOLEAN, 
+   vAMOS-Level INTEGER (0..3)
+   ]], 
+   /*
+	-- Release 10 starts here
+	< TIGHTER Capability : bit(2) >
+	< Selective Ciphering of Downlink SACCH : bit >
+   */
+   [[ 10:
+   tighterCapability INTEGER (0..3), 
+   selCiphOf-DL-SACCH BOOLEAN
+   ]],
+   spareBits BIT STRING
+}
+
+GSMRRCipheringModeCommand ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+cipheringmodecmdmsgType INTEGER (0..255),
+cipherresponse GSMRRCipherResponse,
+cipheringmodesetting GSMRRCipheringModeSetting
+}
+
+
+GSMRRClassmarkChange ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+classmarkchangemsgType INTEGER (0..255),
+mobilestationclassmark2 GSMRRMobileStationClassmark2,
+additionalmobilestationclassmarkinfo GSMRRMobileStationClassmark3
+}
+
+GSMRRUtranClassmark ::= SEQUENCE {
+utranclassmarklength OCTET STRING (SIZE (1)),
+utranclassmarkvalue OCTET STRING (SIZE (200))
+}
+
+GSMRRUtranClassmarkChange ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+utranclassmarkchangemsgType INTEGER (0..255),
+utranclassmark GSMRRUtranClassmark
+}
+
+GSMRRAssignmentComp ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+assignmentcompmsgType INTEGER (0..255),
+rrcause INTEGER (0..255)
+}
+
+GSMRRRoutingAreaIdentification ::= SEQUENCE {
+mcc-mnc MCCMNCPair,
+lac OCTET STRING (SIZE (2)),
+rac OCTET STRING (SIZE (1))
+}
+
+GSMRRServiceSupport ::= SEQUENCE {
+spare INTEGER(0..63) DEFAULT 0,
+mbmsbroadcast INTEGER(0..3)
+}
+
+GSMRRGPRSSuspensionRequest ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+gprssuspensionreqmsgType INTEGER (0..255),
+temporarylogicallinkidentity OCTET STRING (SIZE (4)),
+routingareaidentification GSMRRRoutingAreaIdentification,
+suspensioncause INTEGER (0..255),
+servicesupport GSMRRServiceSupport
+}
+
+GSMRRChannelRelease ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+channelreleasemsgType INTEGER (0..255),
+rrcause INTEGER (0..255)
+}
+
+MAIO ::= SEQUENCE {
+maiohighpart INTEGER(0..15),
+maiolowpart INTEGER(0..3)
+}
+
+MAIO2 ::= SEQUENCE {
+maiohighpart INTEGER(0..15),
+maiolowpart INTEGER(0..3),
+hsn INTEGER(0..63)
+}
+
+ARFCN ::= SEQUENCE {
+spare INTEGER(0..3),
+arfcnhighpart INTEGER(0..3),
+arfcnlowpart INTEGER(0..255)
+}
+
+HoppingChannel ::= CHOICE {
+maio MAIO,
+arfcn ARFCN
+}
+
+HoppingChannel2 ::= CHOICE {
+maio MAIO2,
+arfcn ARFCN
+}
+
+
+GSMRRChannelDescription2 ::= SEQUENCE {
+	channeltypeandtdmaoffset INTEGER (0..31),
+				 tn INTEGER(0..7),
+				 tsc INTEGER(0..7),
+				 hoppingchannel HoppingChannel2
+}
+
+GSMRRChannelDescription ::= SEQUENCE {
+	channeltypeandtdmaoffset INTEGER (0..31),
+				 tn INTEGER(0..7),
+				 tsc INTEGER(0..7),
+				 hoppingchannel HoppingChannel2
+}
+
+GSMRRFrequencyList ::= SEQUENCE {
+length INTEGER(0..255),
+value OCTET STRING (SIZE (131))
+}
+
+GSMRRMultislotAllocation ::= SEQUENCE {
+length INTEGER(0..255),
+value OCTET STRING (SIZE (11))
+}
+
+GSMRRMobileAllocation ::= SEQUENCE {
+length INTEGER(0..255),
+value OCTET STRING (SIZE (8))
+}
+
+GSMRRStartingTime ::= SEQUENCE {
+value OCTET STRING (SIZE (2))
+}
+
+GSMRRFrequencyChannelSequence ::= SEQUENCE {
+value OCTET STRING (SIZE (9))
+}
+
+GSMRRPowerCommand ::= SEQUENCE {
+spare BOOLEAN DEFAULT 0,
+epcmode BOOLEAN,
+fpcepc BOOLEAN,
+powerlevel INTEGER(0..31)
+}
+
+GSMRRAssignmentCommand ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+assignmentcommandmsgType INTEGER (0..255),
+descriptionofthefirstchannelaftertime GSMRRChannelDescription2,
+powercommand GSMRRPowerCommand,
+freqlistaftertime GSMRRFrequencyList,
+cellchanneldescription OCTET STRING (SIZE (17)),
+descriptionofthemultislotconfig GSMRRMultislotAllocation,
+modeoffirstchannel INTEGER (0..255),
+modeofchannelset2 INTEGER (0..255),
+modeofchannelset3 INTEGER (0..255),
+modeofchannelset4 INTEGER (0..255),
+modeofchannelset5 INTEGER (0..255),
+modeofchannelset6 INTEGER (0..255),
+modeofchannelset7 INTEGER (0..255),
+modeofchannelset8 INTEGER (0..255),
+descriptionofthesecondchannelaftertime GSMRRChannelDescription,
+modeofsecondchannel INTEGER (0..255),
+mobileallocationaftertime GSMRRMobileAllocation,
+startingtime GSMRRStartingTime,
+freqlistbeforetime GSMRRFrequencyList,
+descriptionofthefirstchannelbeforetime GSMRRChannelDescription2,
+descriptionofthesecondchannelbeforetime GSMRRChannelDescription,
+freqchannelsequencebeforetime OCTET STRING (SIZE (9)),
+mobileallocationbeforetime GSMRRMobileAllocation,
+cipheringmodesetting GSMRRCipheringModeSetting
+}
+
+GSMRRDedicatedModeOrTbf ::= SEQUENCE {
+spare BOOLEAN DEFAULT 0,
+tma BOOLEAN,
+downlink BOOLEAN,
+tbfordedicated BOOLEAN
+}
+
+GSMRRChannelDescriptionChoice ::= CHOICE {
+channeldescription GSMRRChannelDescription,
+packetchanneldescription OCTET STRING (SIZE (3))
+}
+
+GSMRRRequestReference ::= SEQUENCE {
+randomaccessinfo INTEGER (0..255),
+t1 INTEGER (0..31),
+t3high INTEGER (0..7),
+t3low INTEGER(0..7),
+t2 INTEGER(0..31)
+}
+
+ImmediateAssign ::= SEQUENCE {
+skipInd INTEGER(0..15),
+protoDiscr GSMRRProtoDiscr,
+immediateassignmsgType INTEGER (0..255),
+pagemode GSMRRPageMode,
+dedicatedmodeortbf GSMRRDedicatedModeOrTbf,
+channeldescriptionchoice GSMRRChannelDescriptionChoice,
+requestreference GSMRRRequestReference,
+timingadvance OCTET STRING (SIZE (1)),
+mobileallocation GSMRRMobileAllocation,
+startingtime GSMRRStartingTime,
+iarestoctets OCTET STRING (SIZE (11))
+}
+END

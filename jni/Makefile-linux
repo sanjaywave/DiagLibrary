@@ -1,0 +1,13 @@
+CC=gcc 
+
+CFLAGS=-I. -I./include
+
+DEPS = include/CdmaContext.h include/cdmadecode.h include/decode.h include/diag-cmd.h include/errors.h include/filewrite.h include/extmsgid.h include/filewriter.h include/gsmdecode.h  include/interfaceapi.h include/internalEvent.h include/ltebandlock.h include/ltedecode.h include/wcdmadecode.h include/version.h include/lte_parameters.h 
+
+OBJ =  source/cdmadecode.o source/cdmaLogMask.o source/decode.o source/diag-cmd.o source/diag-init.o source/wcdmadecode.o source/DlfFileWriter.o source/DlfInterfaceApi.o source/errors.o source/extmsgid.o source/filewriter.o source/gpsLogMask.o source/gsmdecode.o source/gsmLogMask.o source/interfaceapi.o source/ipcQueue.o source/ltebandlock.o source/ltedecode.o source/LteLogMask.o source/nasdecode.o source/packetProcess.o source/version.o source/wcdmaLogMask.o source/lte_parameters.o test_stub/testdlf.o
+
+%.o: %.c
+	$(CC) -c -g -o $@ $< $(CFLAGS) -DHOST -DWCDMA_ENABLE -DGSM_ENABLE -DLTE_ENABLE -DCDMA_ENABLE
+
+testapplinux: $(OBJ)
+	gcc -g -o $@ $^ $(CFLAGS) -lm -lpthread -DHOST

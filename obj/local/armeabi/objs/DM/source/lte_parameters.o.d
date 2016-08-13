@@ -1,0 +1,125 @@
+/home/ashish/projects/wave/mobilecem_code/DMLibrary/obj/local/armeabi/objs/DM/source/lte_parameters.o: \
+ /home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/source/lte_parameters.c \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/stdio.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/cdefs.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/cdefs_elf.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/android/api-level.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/types.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/stdint.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/_types.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/machine/_types.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/_wchar_limits.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/posix_types.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/stddef.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/compiler.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/posix_types.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/types.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/types.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/machine/kernel.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/sysmacros.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/pthread.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/time.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/time.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/time.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/siginfo.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm-generic/siginfo.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/signal.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/limits.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/limits.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/limits.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/machine/internal_types.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/machine/limits.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/syslimits.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/page.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/string.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/malloc.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/signal.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm-generic/signal.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sched.h \
+ /home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/include/interfaceapi.h \
+ /home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/include/decode.h \
+ /home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/include/errors.h \
+ /home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/assert.h \
+ /home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/include/lte_parameters.h
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/stdio.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/cdefs.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/cdefs_elf.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/android/api-level.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/types.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/stdint.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/_types.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/machine/_types.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/_wchar_limits.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/posix_types.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/stddef.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/compiler.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/posix_types.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/types.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/types.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/machine/kernel.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/sysmacros.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/pthread.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/time.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/time.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/time.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/siginfo.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm-generic/siginfo.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/signal.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/limits.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/limits.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/linux/limits.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/machine/internal_types.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/machine/limits.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sys/syslimits.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/page.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/string.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/malloc.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm/signal.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/asm-generic/signal.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/sched.h:
+
+/home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/include/interfaceapi.h:
+
+/home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/include/decode.h:
+
+/home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/include/errors.h:
+
+/home/ashish/bin/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/assert.h:
+
+/home/ashish/projects/wave/mobilecem_code/DMLibrary/jni/include/lte_parameters.h:

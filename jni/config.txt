@@ -1,0 +1,4 @@
+Path="/mnt/sdcard/diagApp/"
+Log="/mnt/sdcard/diagApp/"
+Size="500000"
+DlfFile="6000000"
